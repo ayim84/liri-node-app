@@ -100,10 +100,27 @@ function runLIRI()
         fs.readFile("random.txt", "utf8", function(error, data)
         {
             var array = data.split(",");
-            console.log(array); 
-            command = array[0];
-            input = array[1];
-            runLIRI();
+            console.log(array.length);
+            if((array.length % 2) == 1 || array.length == 0)
+            {
+                console.log("Invalid number of items in random.txt.");
+            } 
+            else if(array.length == 2)
+            {
+                command = array[0];
+                input = array[1];
+                runLIRI();
+            }
+            else
+            {
+                for(var i = 0; i < array.length; i+=2)
+                {
+                    console.log("test");
+                    command = array[i];
+                    input = array[i+1];
+                    runLIRI();
+                }
+            }
         });
     }
 }
