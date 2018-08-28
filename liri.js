@@ -13,15 +13,19 @@ var input = process.argv.slice(3).join("+");
 
 function spotifySearch(song)
 {
-    spotify.search({ type: 'track', query: song, limit: 1}, function(err, data) {
+    spotify.search({ type: 'track', query: song, limit: 10}, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
        
-        console.log("Artist: " + JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2)); 
-        console.log("Song Name: " + JSON.stringify(data.tracks.items[0].name, null, 2)); 
-        console.log("Preview URL: " + JSON.stringify(data.tracks.items[0].preview_url, null, 2)); 
-        console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name, null, 2)); 
+        for(var i = 0; i < data.tracks.items.length; i++)
+        {
+            console.log("Artist: " + JSON.stringify(data.tracks.items[i].album.artists[0].name, null, 2)); 
+            console.log("Song Name: " + JSON.stringify(data.tracks.items[i].name, null, 2)); 
+            console.log("Preview URL: " + JSON.stringify(data.tracks.items[i].preview_url, null, 2)); 
+            console.log("Album: " + JSON.stringify(data.tracks.items[i].album.name, null, 2)); 
+            console.log("-------------------------------------------------------");
+        }
     
     });
 }
@@ -32,9 +36,13 @@ function bandsInTownSearch(band)
     {
         if(!error && response.statusCode === 200)
         {
-            console.log("Venue: " + JSON.parse(body)[0].venue.name);
-            console.log("Location: " + JSON.parse(body)[0].venue.city + ", " + JSON.parse(body)[0].venue.region);
-            console.log("Date of Event: " + moment(JSON.parse(body)[0].datetime, "YYYY-MM-DDTHH:mm").format("MM/DD/YYYY"));
+            for(var i = 0; i < JSON.parse(body).length; i++)
+            {
+                console.log("Venue: " + JSON.parse(body)[i].venue.name);
+                console.log("Location: " + JSON.parse(body)[i].venue.city + ", " + JSON.parse(body)[0].venue.region);
+                console.log("Date of Event: " + moment(JSON.parse(body)[i].datetime, "YYYY-MM-DDTHH:mm").format("MM/DD/YYYY"));
+                console.log("-------------------------------------------------------");
+            }
         }
     });
 }
